@@ -7,14 +7,14 @@ before_action :ensure_logged_in, except: [:index, :show]
 
   def show
   	@product = Product.find(params[:id])
-
-    if current_user
+    
+    if current_user 
       @review = @product.reviews.build
     end
   end
 
   def new
-  	@product = Product.new 
+  	@product = Product.new
   end
 
   def edit
@@ -28,28 +28,29 @@ before_action :ensure_logged_in, except: [:index, :show]
   		redirect_to products_url
   	else
   		render :new
-  	end 
-  end
+  	end
+  end 
 
   def update
   	@product = Product.find(params[:id])
 
-  	if @product.update_attributes(product_params)
-  		redirect_to product_path(@product)
-  	else
+	if @product.update_attributes(product_params)
+  		redirect_to products_path(@product)
+  	else 
   		render :edit
-  	end
-  end
+  	end 
+  end	
+	
+	def destroy 
+		@product = Product.find(params[:id])
+		@product.destroy
+		redirect_to products_path
+	end 
 
-  def destroy
-  	@product = Product.find(params[:id])
-  	@product.destroy
-  	redirect_to products_path
-  end  
+	private
 
-  private
-  def product_params
-  	params.require(:product).permit(:name, :description, :price_in_cents)
-  end
+	def product_params
+		params.require(:product).permit(:name, :description, :price_in_cents)
+	end	
 
 end
