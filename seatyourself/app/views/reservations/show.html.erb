@@ -1,0 +1,9 @@
+<h1> Your Table has been reserved!</h1>
+
+<%= render @reservation %>
+
+<%= link_to "Back to reserve more...", restaurants_url %>
+
+<h2> Your other reservations for this month: </h2>
+
+<%= render current_user.reservations - [@reservation] %>

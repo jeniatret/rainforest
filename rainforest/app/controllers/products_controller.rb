@@ -2,7 +2,21 @@ class ProductsController < ApplicationController
 before_action :ensure_logged_in, except: [:index, :show]
 
   def index
-  	@products = Product.all
+  	@products = if params[:search]
+      Product.where("LOWER(name) LIKE LOWER(?)", "%#{params[:search]}%").page(params[:page])
+    else
+    Product.all.page(params[:page])
+    end
+  #render 'index.html.erb'
+    respond_to do |format|
+      format.html do 
+        if request.xhr?
+          render @products
+          else
+        format.js
+        end
+      end
+    end
   end
 
   def show
