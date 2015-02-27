@@ -19,7 +19,7 @@ before_action :ensure_logged_in, except: [:index, :show]
 
   def show
   	@product = Product.find(params[:id])
-
+    
     if current_user
       @review = Review.new(product: @product)
       # @review = @product.reviews.new
